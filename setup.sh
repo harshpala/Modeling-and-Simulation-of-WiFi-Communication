@@ -16,6 +16,10 @@ mkdir -p "$PROJECT_ROOT/include/core" "$PROJECT_ROOT/include/protocols"
 [ ! -f "$PROJECT_ROOT/include/core/Simulator.h" ] && touch "$PROJECT_ROOT/include/core/Simulator.h"
 [ ! -f "$PROJECT_ROOT/include/protocols/WiFi4Simulator.h" ] && touch "$PROJECT_ROOT/include/protocols/WiFi4Simulator.h"
 
+# Create logs directory if it does not exist
+mkdir -p "$PROJECT_ROOT/logs"
+[ ! -f "$PROJECT_ROOT/logs/simulationLogs.txt" ] && touch "$PROJECT_ROOT/logs/simulationLogs.txt"
+
 # Print the project structure
 echo "Project structure created. Directory and file setup:"
 echo "
