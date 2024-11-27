@@ -6,7 +6,6 @@ PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # Create directories for organized structure
 mkdir -p "$PROJECT_ROOT/src/core" "$PROJECT_ROOT/src/protocols" "$PROJECT_ROOT/src/utils"
 mkdir -p "$PROJECT_ROOT/include/core" "$PROJECT_ROOT/include/protocols" "$PROJECT_ROOT/include/utils"
-mkdir -p "$PROJECT_ROOT/build" "$PROJECT_ROOT/tests" "$PROJECT_ROOT/logs"
 
 # Create empty source files in respective subfolders
 [ ! -f "$PROJECT_ROOT/src/core/main.cpp" ] && touch "$PROJECT_ROOT/src/core/main.cpp"
@@ -66,8 +65,6 @@ $PROJECT_ROOT/
 │       ├── WiFi4Simulator.h  # WiFi 4 Simulator header
 │       ├── WiFi5Simulator.h  # WiFi 5 Simulator header
 │       └── WiFi6Simulator.h  # WiFi 6 Simulator header
-│
-├── build/                  # Directory for build artifacts
 │
 ├── tests/
 │   └── test_simulator.cpp  # Test file for simulator
