@@ -4,6 +4,9 @@
 PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Create directories for organized structure
+mkdir -p "$PROJECT_ROOT/src/core" "$PROJECT_ROOT/src/protocols"
+mkdir -p "$PROJECT_ROOT/include/core" "$PROJECT_ROOT/include/protocols"
+
 # Create empty source files in respective subfolders
 [ ! -f "$PROJECT_ROOT/src/core/main.cpp" ] && touch "$PROJECT_ROOT/src/core/main.cpp"
 [ ! -f "$PROJECT_ROOT/src/core/Simulator.cpp" ] && touch "$PROJECT_ROOT/src/core/Simulator.cpp"
