@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include "../../include/core/config.h"
 #include "../../include/core/Simulator.h"
 #include "../../include/protocols/WiFi4Simulator.h"
 
@@ -22,7 +23,8 @@ int main() {
             throw std::invalid_argument("Number of iterations must be a positive integer.");
         }
 
-        const int bandwidth = 20; // 20 MHz bandwidth
+        // Pass Config::BANDWIDTH_MHZ to the simulator
+        const int bandwidth = Config::BANDWIDTH_MHZ;
         WiFi4Simulator simulator(numUsers, bandwidth);
         simulator.runSimulationMultipleTimes(numIterations);
     } catch (const std::exception &e) {

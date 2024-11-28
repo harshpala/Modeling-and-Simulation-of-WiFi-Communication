@@ -1,3 +1,4 @@
+#include "../../include/core/config.h"
 #include "../../include/protocols/WiFi4Simulator.h"
 #include "../../include/core/User.h"
 #include <vector>
@@ -19,7 +20,7 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
     logStream << "Run " << runNumber << ":\n";
     logStream << "------------------\n";
 
-    const double transmissionTime = 0.0614; // Transmission time for 1 KB packet
+    const double transmissionTime = Config::TRANSMISSION_TIME; // Use Config constant
     std::vector<User> users;
 
     // Step 1: Create users and assign initial backoff times

@@ -1,4 +1,5 @@
 #include "../../include/core/User.h"
+#include "../../include/core/Config.h"
 #include <cstdlib> // For rand()
 
 User::User(int id) : id(id), backoffTime(0.0), startTime(0.0), endTime(0.0) {}
@@ -32,7 +33,7 @@ void User::setEndTime(double time) {
 }
 
 void User::assignBackoff() {
-    backoffTime = rand() % 10 + 1; // Random backoff between 1-10 ms
+    backoffTime = rand() % Config::MAX_BACKOFF_MS + Config::MIN_BACKOFF_MS; // Random backoff between 1-10 ms
 }
 
 void User::transmit(double &currentTime, double transmissionTime) {
