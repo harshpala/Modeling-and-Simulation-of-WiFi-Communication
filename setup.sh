@@ -14,6 +14,7 @@ mkdir -p "$PROJECT_ROOT/include/core" "$PROJECT_ROOT/include/protocols"
 [ ! -f "$PROJECT_ROOT/src/protocols/WiFi4Simulator.cpp" ] && touch "$PROJECT_ROOT/src/protocols/WiFi4Simulator.cpp"
 
 # Create empty header files in respective subfolders
+[ ! -f "$PROJECT_ROOT/include/core/config.h" ] && touch "$PROJECT_ROOT/include/core/config.h"
 [ ! -f "$PROJECT_ROOT/include/core/User.h" ] && touch "$PROJECT_ROOT/include/core/User.h"
 [ ! -f "$PROJECT_ROOT/include/core/Simulator.h" ] && touch "$PROJECT_ROOT/include/core/Simulator.h"
 [ ! -f "$PROJECT_ROOT/include/protocols/WiFi4Simulator.h" ] && touch "$PROJECT_ROOT/include/protocols/WiFi4Simulator.h"
@@ -40,8 +41,9 @@ $PROJECT_ROOT/
 └── include/
     │
     ├── core/
-    │    ├──Simulator.h     # Simulator base class header
-    │    └──User.h          # User class header
+    │    ├── config.h       # Centralizing Assumptions and Constants
+    │    ├── Simulator.h    # Simulator base class header
+    │    └── User.h         # User class header
     │
     └── protocols/
          └── WiFi4Simulator.h  # WiFi 4 Simulator header
