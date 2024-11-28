@@ -18,9 +18,9 @@ void WiFi5Simulator::runSimulation(int totalPackets, int numPacketsPerUser) {
     // Simulation parameters
     double currentTime = 0.0;
     double broadcastTime = Config::TRANSMISSION_TIME;          // 1 KB broadcast packet transmission time (ms)
-    double csiTime = Config::CSI_PACKET_TIME;                                    // CSI packet transmission time (ms)
+    double csiTime = 0.012;                                    // CSI packet transmission time (ms)
     double packetTransmissionTime = Config::TRANSMISSION_TIME; // Data packet transmission time (ms)
-    double timeSlot = Config::TIME_SLOT_MS;                                    // Time slot for parallel communication (ms)
+    double timeSlot = 15.0;                                    // Time slot for parallel communication (ms)
 
     // Initialize packetsRemaining vector to track each user's packets
     packetsRemaining.resize(numUsers, numPacketsPerUser); // Packets left for each user
@@ -36,6 +36,7 @@ void WiFi5Simulator::runSimulation(int totalPackets, int numPacketsPerUser) {
     logStream << "Total packets: " << totalPackets << "\n";
     logStream << "Broadcast time: " << broadcastTime << " ms\n";
     logStream << "CSI time: " << csiTime << " ms\n";
+    logStream << "Setup Time: " << broadcastTime + csiTime << " ms\n";
     logStream << "Packet transmission time: " << packetTransmissionTime << " ms\n";
     logStream << "Parallel time slot: " << timeSlot << " ms\n";
     logStream << "---------------------\n";
@@ -56,13 +57,14 @@ void WiFi5Simulator::runSimulation(int totalPackets, int numPacketsPerUser) {
         // Step 3: Start parallel transmission for the time slot
         double slotStart = currentTime;
         logStream << "Starting parallel transmission for " << timeSlot << " ms...\n";
+        int currentUser = 0;
         for (int i = 0; i < numUsers; ++i) {
             while (packetsRemaining[i] > 0) {
                 double transmissionEndTime = currentTime + packetTransmissionTime;
 
                 // If the transmission exceeds the time slot, break
                 if (transmissionEndTime > slotStart + timeSlot) {
-                    logStream << "User " << i + 1 << " exceeded time slot, ending transmission at time "
+                    logStream << "User " << currentUser + 1 << " exceeded time slot, ending transmission at time "
                               << currentTime << " ms.\n";
                     break;
                 }
@@ -74,7 +76,8 @@ void WiFi5Simulator::runSimulation(int totalPackets, int numPacketsPerUser) {
                 latencies.push_back(currentTime);  // Record latency
                 timestamps.push_back(currentTime); // Record timestamp
 
-                logStream << "User " << i + 1 << " transmitted a packet at time " << currentTime << " ms.\n";
+                logStream << "User " <<currentUser + 1 << " transmitted a packet at time " << currentTime << " ms.\n";
+                currentUser = ((currentUser + 1) % numUsers);
             }
         }
     }
