@@ -52,26 +52,41 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
 
                 // Assign a new backoff time to the conflicted user
                 double oldBackoff = users[i].getBackoffTime();
+                double originalArrivalTime = std::max(currentTime, oldBackoff);
                 users[i].assignBackoff();
+                double newArrivalTime = originalArrivalTime + users[i].getBackoffTime();
+
                 logStream << "Conflict detected for User " << users[i].getId()
                           << " (backoff: " << oldBackoff << " ms). New backoff: "
-                          << users[i].getBackoffTime() << " ms.\n";
+                          << users[i].getBackoffTime() << " ms. User will now arrive at "
+                          << std::fixed << std::setprecision(4) << newArrivalTime << " ms.\n";
+
+                // Update the user's backoff time and re-sort the list
+                users[i].setBackoffTime(newArrivalTime);
             }
         }
 
-        if (!conflictDetected) {
-            // No conflicts, proceed with transmission
-            currentUser.setEndTime(currentUser.getStartTime() + transmissionTime);
-            currentTime = currentUser.getEndTime();
-
-            latencies.push_back(currentUser.getEndTime());
-            timestamps.push_back(currentUser.getEndTime());
-
-            currentUser.logTransmission(logStream);
-
-            // Remove the user from the list
-            users.erase(users.begin());
+        // Re-sort users after conflict resolution
+        if (conflictDetected) {
+            continue; // Skip processing to allow for re-sorting
         }
+
+        // No conflicts, proceed with transmission
+        currentUser.setEndTime(currentUser.getStartTime() + transmissionTime);
+        currentTime = currentUser.getEndTime();
+
+        latencies.push_back(currentUser.getEndTime());
+        timestamps.push_back(currentUser.getEndTime());
+
+        // Log the transmission
+        logStream << "User " << currentUser.getId()
+                  << " waiting (backoff: " << currentUser.getBackoffTime()
+                  << " ms, current time: " << std::fixed << std::setprecision(4) << currentUser.getStartTime() << " ms).\n";
+        logStream << "User " << currentUser.getId() << " transmitted at time "
+                  << std::fixed << std::setprecision(4) << currentUser.getEndTime() << " ms.\n";
+
+        // Remove the user from the list
+        users.erase(users.begin());
     }
 
     return logStream.str();
