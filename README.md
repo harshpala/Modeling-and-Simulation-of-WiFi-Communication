@@ -2,7 +2,7 @@
 # WiFi 4 Communication ( CSMA/CA)
 
 ## Objective
-The goal of this project is to simulate WiFi communication protocols, specifically WiFi 4 (CSMA/CA) and WiFi 5 (MU-MIMO). The simulation models communication between multiple users and an Access Point (AP), including processes like packet transmission, backoff time handling, and interference resolution. The simulation calculates throughput, latency, and maximum latency for different scenarios and provides insights into how the protocols perform under various network conditions.
+The goal of this project is to simulate WiFi communication protocols, specifically WiFi 4 (CSMA/CA). The simulation models communication between multiple users and an Access Point (AP), including processes like packet transmission, backoff time handling, and interference resolution. The simulation calculates throughput, latency, and maximum latency for different scenarios and provides insights into how the protocols perform under various network conditions.
 
 ## Approach
 
