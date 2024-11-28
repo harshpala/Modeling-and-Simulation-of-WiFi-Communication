@@ -11,14 +11,19 @@ OBJECTS=$(SOURCES:src/%.cpp=build/%.o)
 DEBUG_TARGET=build/WiFiSimulator_debug
 RELEASE_TARGET=build/WiFiSimulator_opt
 
-.PHONY: all clean debug optimized prepare
+# Library targets
+STATIC_LIB=build/libWiFiSimulator.a
+SHARED_LIB=build/libWiFiSimulator.so
 
-all: prepare debug optimized
+.PHONY: all clean debug optimized prepare static shared
+
+all: prepare debug optimized static shared
 
 debug: $(DEBUG_TARGET)
 
 optimized: $(RELEASE_TARGET)
 
+# Debug and optimized targets
 $(DEBUG_TARGET): $(OBJECTS)
 	$(CC) $(DEBUGFLAGS) $(CFLAGS) $^ -o $@
 
@@ -27,12 +32,21 @@ $(RELEASE_TARGET): $(OBJECTS)
 
 # Compile source files into object files
 build/%.o: src/%.cpp
-	if not exist "build" mkdir build
-	if not exist "build\\core" mkdir build\\core
-	if not exist "build\\protocols" mkdir build\\protocols
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Prepare the necessary directories
+# Static library creation
+static: $(STATIC_LIB)
+
+$(STATIC_LIB): $(OBJECTS)
+	ar rcs $@ $^
+
+# Shared library creation
+shared: $(SHARED_LIB)
+
+$(SHARED_LIB): $(OBJECTS)
+	$(CC) -shared -o $@ $(OBJECTS)
+
+# Prepare the necessary directories (only once)
 prepare:
 	if not exist "build" mkdir build
 	if not exist "build\\core" mkdir build\\core

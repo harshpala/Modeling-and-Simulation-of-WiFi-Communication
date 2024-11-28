@@ -25,7 +25,7 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
     // Step 1: Create users and assign initial backoff times
     for (int i = 1; i <= numUsers; ++i) {
         User user(i);
-        if (i > 0) {
+        if (i > 1) {
             user.assignBackoff(); // Skip backoff for User 0
         }
         logStream << "User " << user.getId() << " assigned initial backoff: " << user.getBackoffTime() << " ms.\n";
