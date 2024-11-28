@@ -8,147 +8,84 @@
 #include <ctime>
 #include <iostream>
 #include <numeric>
-#include <cmath>                       // For log function
-#include "../../include/core/Config.h" // Include Config.h for global settings
+#include <cmath>  // For log function
+#include "../../include/core/Config.h"  // Include Config.h for global settings
 
 WiFi6Simulator::WiFi6Simulator(int numUsers, int bandwidth)
-    : Simulator(numUsers, bandwidth), subChannelWidth(4), numPacketsPerUser(1) {} // Default sub-channel width set to 4 MHz, default packets per user set to 1
+    : Simulator(numUsers, bandwidth), subChannelWidth(4), numPacketsPerUser(1) {}  // Default sub-channel width set to 4 MHz
 
 double WiFi6Simulator::calculateThroughput()
 {
-    // Total data in bits for throughput calculation
-    double totalDataInBits = numUsers * Config::PACKET_SIZE_KB * 1024 * 8 * numPacketsPerUser; // 1 KB = 8 bits
-
-    // Convert totalTime to seconds
-    double totalTimeInSeconds = latencies.back() / 1000.0; // Convert last timestamp (latency) to seconds
-    std::cout << totalDataInBits << "/" << totalTimeInSeconds << "=" << totalDataInBits/totalTimeInSeconds << "\n";
-    if (totalTimeInSeconds <= 0.0)
-    {
+    if (latencies.empty())
         return 0.0;
-    }
 
-    // Calculate throughput in Mbps (bits per second / 1e6 to convert to Mbps)
-    return (totalDataInBits / totalTimeInSeconds) / 1e6;
+    double totalData = latencies.size() * 8192.0;    // Total data in bits (1 KB = 8192 bits)
+    double totalTime = timestamps.back();            // Total simulation time in ms
+    return (totalData / (totalTime / 1000.0)) / 1e6; // Throughput in Mbps
 }
 
 void WiFi6Simulator::runSimulation()
 {
-    std::cout << "Running WiFi 6 Simulation (OFDMA)...\n";
+    std::cout << "\n--- WiFi 6 OFDMA Simulation ---\n";
 
+    // Ask the user for sub-channel width
     int userInputSubChannelWidth;
-    std::cout << "Enter sub-channel width (2 MHz, 4 MHz, or 10 MHz): ";
+    std::cout << "Enter sub-channel width (2, 4, or 10 MHz): ";
     std::cin >> userInputSubChannelWidth;
 
+    // Validate sub-channel width
     if (userInputSubChannelWidth != 2 && userInputSubChannelWidth != 4 && userInputSubChannelWidth != 10)
     {
-        throw std::invalid_argument("Invalid sub-channel width! Use 2, 4, or 10 MHz.");
+        throw std::invalid_argument("Invalid sub-channel width! Only 2, 4, or 10 MHz are allowed.");
     }
     subChannelWidth = userInputSubChannelWidth;
 
-    // Calculate channel-specific parameters
-    int numSubChannels = Config::BANDWIDTH_MHZ / subChannelWidth;
-    double frameDuration = Config::TIME_SLOT_OFDMA_MS; // 5 ms time slot
+    int numSubChannels = bandwidth / subChannelWidth;                            // Calculate sub-channels based on total bandwidth
+    double dataRatePerSubChannel = (Config::DATA_RATE_MBPS * subChannelWidth) / 20.0; // Mbps per sub-channel
+    double transmissionTime = (8192.0 / (dataRatePerSubChannel * 1e6)) * 1000.0; // ms for 1 KB
 
-    // Calculate packets per channel based on sub-channel width
-    // Assume different transmission rates for different channel widths
-    int packetsPerChannel;
-    switch(subChannelWidth) {
-        case 2:
-            packetsPerChannel = 1; // Narrowest channel, fewer packets
-            break;
-        case 4:
-            packetsPerChannel = 2; // Medium channel width
-            break;
-        case 10:
-            packetsPerChannel = 3; // Widest channel, more packets
-            break;
-        default:
-            packetsPerChannel = 1; // Default fallback
+    if (dataRatePerSubChannel <= 0)
+    {
+        std::cerr << "Error: Data rate per sub-channel is invalid. Exiting simulation.\n";
+        return;
     }
 
-    std::cout << "Sub-channel width: " << subChannelWidth << " MHz.\n";
-    std::cout << "Total available sub-channels: " << numSubChannels << ".\n";
-    std::cout << "Packets per channel in 5ms: " << packetsPerChannel << ".\n";
+    std::cout << "Total Bandwidth: " << bandwidth << " MHz\n";
+    std::cout << "Sub-channel Width: " << subChannelWidth << " MHz\n";
+    std::cout << "Number of Sub-channels: " << numSubChannels << "\n";
+    std::cout << "Transmission Time per Packet: " << std::fixed << std::setprecision(4) << transmissionTime << " ms\n\n";
 
-    // Ask for the number of packets per user
-    std::cout << "Enter the number of packets per user: ";
-    std::cin >> numPacketsPerUser;
+    latencies.clear();
+    timestamps.clear();
 
+    int remainingUsers = numUsers;
     double currentTime = 0.0;
-    int packetsSent = 0;
-
-    // Track packets remaining for each user
-    std::vector<int> packetsRemaining(numUsers, numPacketsPerUser);
-    std::vector<bool> usersFinished(numUsers, false);
-    int usersRemaining = numUsers;
 
     // Main simulation loop for sending packets
-    while (packetsSent < numUsers * numPacketsPerUser)
+    while (remainingUsers > 0)
     {
-        // Determine how many users can transmit in this frame
-        int availableChannels = std::min(numSubChannels, usersRemaining);
+        std::cout << "--- Starting Frame at " << currentTime << " ms ---\n";
 
-        // Start of the time slot
-        double slotStart = currentTime;
-        double slotEnd = slotStart + frameDuration;
+        // Assign users to sub-channels based on the sub-channel width and remaining users
+        int usersThisFrame = std::min(numSubChannels, remainingUsers);
 
-        // Track active users for this frame
-        std::vector<int> activeUsers;
-        for (int i = 0; i < numUsers; ++i)
+        for (int i = 0; i < usersThisFrame; ++i)
         {
-            if (!usersFinished[i] && packetsRemaining[i] > 0 && activeUsers.size() < availableChannels)
-            {
-                activeUsers.push_back(i);
-            }
+            int user = numUsers - remainingUsers + i;
+            double latency = currentTime + transmissionTime;
+
+            timestamps.push_back(latency);
+            latencies.push_back(latency);
+
+            std::cout << "User " << user + 1 << " transmits at " << std::fixed << std::setprecision(4) << latency << " ms on " << subChannelWidth << " MHz channel\n";
         }
 
-        // Transmit packets for active users in this frame
-        for (int userIndex : activeUsers)
-        {
-            // Send packets for this user within the channel capacity
-            for (int j = 0; j < packetsPerChannel && packetsRemaining[userIndex] > 0; ++j)
-            {
-                // Calculate transmission time for each packet
-                // double packetTransmissionTime = Config::TRANSMISSION_TIME;
-                // correct output
-                double packetTransmissionTime = (1024 * 8) / ((subChannelWidth * log2(Config::MODULATION) * Config::CODING_RATE * 1000));;
-                // Send a packet for this user
-                packetsRemaining[userIndex]--;
-                packetsSent++;
-
-                // Update current time
-                currentTime += packetTransmissionTime;
-
-                // Track latencies and timestamps
-                latencies.push_back(currentTime);
-                timestamps.push_back(currentTime);
-                
-                std::cout << "User " << userIndex + 1 
-                          << " sent packet " << packetsSent 
-                          << " at " << currentTime << " ms "
-                          << "on " << subChannelWidth << " MHz channel\n";
-
-                // Break if time slot is exhausted
-                if (currentTime >= slotEnd) break;
-            }
-
-            // Mark user as finished if no more packets
-            if (packetsRemaining[userIndex] == 0)
-            {
-                usersFinished[userIndex] = true;
-                usersRemaining--;
-            }
-        }
-
-        // Ensure we move to the next time slot
-        currentTime = slotEnd;
-
-        // Update the number of remaining users
-        usersRemaining = std::count(usersFinished.begin(), usersFinished.end(), false);
+        remainingUsers -= usersThisFrame;
+        currentTime += 5.0; // Move to the next frame (frame duration is 5 ms)
     }
 
     // Display simulation results
-    std::cout << "\nSimulation Complete!\n";
+    std::cout << "\nSimulation Results:\n";
     std::cout << "Throughput: " << calculateThroughput() << " Mbps\n";
     std::cout << "Average Latency: " << calculateAverageLatency() << " ms\n";
     std::cout << "Max Latency: " << calculateMaxLatency() << " ms\n";
@@ -157,9 +94,8 @@ void WiFi6Simulator::runSimulation()
 double WiFi6Simulator::calculateAverageLatency()
 {
     if (latencies.empty())
-    {
         return 0.0;
-    }
+
     double totalLatency = std::accumulate(latencies.begin(), latencies.end(), 0.0);
     return totalLatency / latencies.size();
 }
@@ -167,8 +103,7 @@ double WiFi6Simulator::calculateAverageLatency()
 double WiFi6Simulator::calculateMaxLatency()
 {
     if (latencies.empty())
-    {
         return 0.0;
-    }
+
     return *std::max_element(latencies.begin(), latencies.end());
 }
