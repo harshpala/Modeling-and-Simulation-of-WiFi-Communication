@@ -36,6 +36,7 @@ void WiFi5Simulator::runSimulation(int totalPackets, int numPacketsPerUser) {
     logStream << "Total packets: " << totalPackets << "\n";
     logStream << "Broadcast time: " << broadcastTime << " ms\n";
     logStream << "CSI time: " << csiTime << " ms\n";
+    logStream << "Setup Time: " << broadcastTime + csiTime << " ms\n";
     logStream << "Packet transmission time: " << packetTransmissionTime << " ms\n";
     logStream << "Parallel time slot: " << timeSlot << " ms\n";
     logStream << "---------------------\n";
