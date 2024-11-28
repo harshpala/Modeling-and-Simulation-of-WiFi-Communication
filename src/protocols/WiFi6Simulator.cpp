@@ -9,6 +9,7 @@
 #include <iostream>
 #include <numeric>
 #include <cmath>  // For log function
+#include <sstream>  // For stringstream logging
 #include "../../include/core/Config.h"  // Include Config.h for global settings
 
 WiFi6Simulator::WiFi6Simulator(int numUsers, int bandwidth)
@@ -40,6 +41,7 @@ void WiFi6Simulator::runSimulation()
     }
     subChannelWidth = userInputSubChannelWidth;
 
+    // Calculate channel-specific parameters
     int numSubChannels = bandwidth / subChannelWidth;                            // Calculate sub-channels based on total bandwidth
     double dataRatePerSubChannel = (Config::DATA_RATE_MBPS * subChannelWidth) / 20.0; // Mbps per sub-channel
     double transmissionTime = (8192.0 / (dataRatePerSubChannel * 1e6)) * 1000.0; // ms for 1 KB
@@ -55,6 +57,13 @@ void WiFi6Simulator::runSimulation()
     std::cout << "Number of Sub-channels: " << numSubChannels << "\n";
     std::cout << "Transmission Time per Packet: " << std::fixed << std::setprecision(4) << transmissionTime << " ms\n\n";
 
+    // Create log stream
+    std::ostringstream logStream;
+    logStream << "\n--- WiFi 6 OFDMA Simulation ---\n";
+    logStream << "Sub-channel width: " << subChannelWidth << " MHz.\n";
+    logStream << "Total available sub-channels: " << numSubChannels << ".\n";
+    logStream << "Transmission Time per Packet: " << std::fixed << std::setprecision(4) << transmissionTime << " ms\n\n";
+
     latencies.clear();
     timestamps.clear();
 
@@ -64,7 +73,7 @@ void WiFi6Simulator::runSimulation()
     // Main simulation loop for sending packets
     while (remainingUsers > 0)
     {
-        std::cout << "--- Starting Frame at " << currentTime << " ms ---\n";
+        logStream << "--- Starting Frame at " << currentTime << " ms ---\n";
 
         // Assign users to sub-channels based on the sub-channel width and remaining users
         int usersThisFrame = std::min(numSubChannels, remainingUsers);
@@ -77,12 +86,22 @@ void WiFi6Simulator::runSimulation()
             timestamps.push_back(latency);
             latencies.push_back(latency);
 
-            std::cout << "User " << user + 1 << " transmits at " << std::fixed << std::setprecision(4) << latency << " ms on " << subChannelWidth << " MHz channel\n";
+            logStream << "User " << user + 1 << " transmits at " << std::fixed << std::setprecision(4) << latency << " ms on " << subChannelWidth << " MHz channel\n";
         }
 
         remainingUsers -= usersThisFrame;
         currentTime += 5.0; // Move to the next frame (frame duration is 5 ms)
     }
+
+    // Log the final results
+    logStream << "\nSimulation Complete:\n";
+    logStream << "---------------------\n";
+    logStream << "Throughput: " << calculateThroughput() << " Mbps\n";
+    logStream << "Average Latency: " << calculateAverageLatency() << " ms\n";
+    logStream << "Max Latency: " << calculateMaxLatency() << " ms\n";
+
+    // Save the log to a file
+    saveResultsToFile("./logs/wifi_6_simulation_log.txt", logStream.str());
 
     // Display simulation results
     std::cout << "\nSimulation Results:\n";
