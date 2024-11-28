@@ -18,9 +18,9 @@ void WiFi5Simulator::runSimulation(int totalPackets, int numPacketsPerUser) {
     // Simulation parameters
     double currentTime = 0.0;
     double broadcastTime = Config::TRANSMISSION_TIME;          // 1 KB broadcast packet transmission time (ms)
-    double csiTime = 0.012;                                    // CSI packet transmission time (ms)
+    double csiTime = Config::CSI_PACKET_TIME;                                    // CSI packet transmission time (ms)
     double packetTransmissionTime = Config::TRANSMISSION_TIME; // Data packet transmission time (ms)
-    double timeSlot = 15.0;                                    // Time slot for parallel communication (ms)
+    double timeSlot = Config::TIME_SLOT_MS;                                    // Time slot for parallel communication (ms)
 
     // Initialize packetsRemaining vector to track each user's packets
     packetsRemaining.resize(numUsers, numPacketsPerUser); // Packets left for each user
