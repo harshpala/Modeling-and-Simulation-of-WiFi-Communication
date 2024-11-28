@@ -142,7 +142,7 @@ void WiFi4Simulator::runSimulation(int numIterations) {
 
     if (throughputResults.empty()) {
         fullLog << "Error: No data collected across all iterations.\n";
-        saveResultsToFile("WiFi4SimulationLogs.txt", fullLog.str());
+        saveResultsToFile("./logs/wifi_4_simulation_log.txt", fullLog.str());
         std::cerr << "Error: No data collected across all iterations.\n";
         return;
     }
