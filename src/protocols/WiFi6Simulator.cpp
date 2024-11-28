@@ -22,6 +22,7 @@ double WiFi6Simulator::calculateThroughput()
     // Convert totalTime to seconds
     double totalTimeInSeconds = latencies.back() / 1000.0; // Convert last timestamp (latency) to seconds
     std::cout << totalDataInBits << "/" << totalTimeInSeconds << "=" << totalDataInBits/totalTimeInSeconds << "\n;";
+
     if (totalTimeInSeconds <= 0.0)
     {
         return 0.0;
@@ -70,37 +71,31 @@ void WiFi6Simulator::runSimulation()
     // Main simulation loop for sending packets
     while (packetsSent < numUsers * numPacketsPerUser)
     {
-        int usersInFrame = std::min(usersRemaining, numSubChannels);
+        int usersInFrame = std::min(usersRemaining, numSubChannels);  // Limit users per frame based on available sub-channels
 
-        // Step 1: Start parallel transmission (using OFDMA for 5 ms)
+        // Step 1: Broadcast CSI packets (sequentially)
+        for (int i = 0; i < numUsers; ++i) {
+            currentTime += csiTime;  // CSI packet time for each user
+            std::cout << "User " << i+1 << " transmitted CSI at " << currentTime << " ms.\n";
+        }
+
+        // Step 2: Start parallel transmission (using OFDMA for 5 ms)
         double slotStart = currentTime;
         int currentUserIndex = 0;
 
-        // Round-robin scheduling for the users
-        for (int i = 0; i < usersInFrame; ++i)
-        {
-            // Find the next user with remaining packets
-            while (usersRemaining > 0)
-            {
-                // Skip users who have already finished
-                if (packetsRemaining[currentUserIndex] == 0)
-                {
-                    currentUserIndex = (currentUserIndex + 1) % numUsers;
-                    continue;
-                }
+        // Round-robin scheduling for the users, ensuring that each user uses the assigned channel
+        for (int i = 0; i < usersInFrame; ++i) {
+            while (packetsRemaining[currentUserIndex] > 0) {
+                double transmissionEndTime = currentTime + Config::TRANSMISSION_TIME;
 
-                double transmissionEndTime = currentTime + csiTime;
-
-                // If transmission exceeds the available time slot, break the inner loop
-                if (transmissionEndTime > slotStart + frameDuration)
-                {
+                // If transmission exceeds the available time slot, break
+                if (transmissionEndTime > slotStart + frameDuration) {
                     break;
                 }
 
                 // Send the packet
                 packetsRemaining[currentUserIndex]--;
                 packetsSent++;
-                std::cout << "Packet number " << packetsSent << "\n";
                 currentTime = transmissionEndTime;
 
                 // Track latencies and timestamps
@@ -108,21 +103,8 @@ void WiFi6Simulator::runSimulation()
                 timestamps.push_back(currentTime); // Record timestamp
                 std::cout << "User " << currentUserIndex + 1 << " sent a data packet at " << currentTime << " ms.\n";
 
-                // Mark this user as finished if they have no packets left
-                if (packetsRemaining[currentUserIndex] == 0)
-                {
-                    usersFinished[currentUserIndex] = true;
-                    usersRemaining--;
-                }
-
                 // Move to the next user in round-robin fashion
                 currentUserIndex = (currentUserIndex + 1) % numUsers;
-
-                // Break if all users have finished
-                if (usersRemaining == 0)
-                {
-                    break;
-                }
             }
 
             // Break the outer loop if all users have finished
@@ -132,7 +114,7 @@ void WiFi6Simulator::runSimulation()
             }
         }
 
-        // Update the number of remaining users based on those who have finished
+        // Update the remaining number of users based on those who have finished
         usersRemaining = std::count(usersFinished.begin(), usersFinished.end(), false);
     }
 
