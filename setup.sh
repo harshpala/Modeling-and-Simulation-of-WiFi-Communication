@@ -45,16 +45,16 @@ $PROJECT_ROOT/
 │   │    └── User.h                 # User class header
 │   └── protocols/
 │         └── WiFi4Simulator.cpp    # WiFi 4 Simulator implementation
-├── src/
-│   │
-│   ├── core/
-│   │    ├── main.cpp                    # Main application entry
-│   │    ├── AccessPoint.cpp        # Implementation for Access Point class
-│   │    ├── FrequencyChannel.cpp   # Implementation for Frequency Channel class
-│   │    ├── Packet.cpp             # Implementation for Packet class
-│   │    ├── Simulator.cpp          # Simulator base class implementation
-│   │    └── User.cpp               # User class implementation
-│   │   
-│   └── protocols/
-│        └── WiFi4Simulator.cpp     # WiFi 4 Simulator implementation
+└── src/
+    │
+    ├── core/
+    │    ├── main.cpp                    # Main application entry
+    │    ├── AccessPoint.cpp        # Implementation for Access Point class
+    │    ├── FrequencyChannel.cpp   # Implementation for Frequency Channel class
+    │    ├── Packet.cpp             # Implementation for Packet class
+    │    ├── Simulator.cpp          # Simulator base class implementation
+    │    └── User.cpp               # User class implementation
+    │   
+    └── protocols/
+         └── WiFi4Simulator.cpp     # WiFi 4 Simulator implementation
 "
