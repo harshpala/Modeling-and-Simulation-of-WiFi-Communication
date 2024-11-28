@@ -1,0 +1,25 @@
+WiFi 5 Simulation Logs (MU-MIMO)
+=========================
+
+Starting simulation...
+Run 1:
+------------------
+User 1 created.
+User 2 created.
+User 3 created.
+AP broadcasting packet at time 0.0000 ms.
+User 1 sent CSI at time 0.1228 ms.
+User 2 sent CSI at time 0.1842 ms.
+User 3 sent CSI at time 0.2456 ms.
+Total time required to transmit 1 packets: 0.0600 ms.
+Starting parallel transmission for 15 ms...
+User 1 transmitted at time 15.2456 ms.
+User 2 transmitted at time 30.2456 ms.
+User 3 transmitted at time 45.2456 ms.
+Users finished parallel transmission at time 45.2456 ms.
+
+Results for the Simulation:
+Throughput: 0.000530438 Mbps
+Average Latency: 15.2149 ms
+Max Latency: 45.2456 ms
+

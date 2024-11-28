@@ -2,7 +2,7 @@
 #include "../../include/core/Config.h"
 #include <cstdlib> // For rand()
 
-User::User(int id) : id(id), backoffTime(0.0), startTime(0.0), endTime(0.0) {}
+User::User(int id, int totalPackets) : id(id), backoffTime(0.0), startTime(0.0), endTime(0.0), totalPackets(totalPackets) {}
 
 int User::getId() const {
     return id;
@@ -20,6 +20,10 @@ double User::getEndTime() const {
     return endTime;
 }
 
+int User::getTotalPackets() const {
+    return totalPackets;  // Return total packets
+}
+
 void User::setBackoffTime(double time) {
     backoffTime = time;
 }
@@ -30,6 +34,10 @@ void User::setStartTime(double time) {
 
 void User::setEndTime(double time) {
     endTime = time;
+}
+
+void User::setTotalPackets(int packets) {
+    totalPackets = packets;  // Set total packets for the user
 }
 
 void User::assignBackoff() {
