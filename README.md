@@ -75,17 +75,6 @@ If there's a mistake, the program will display an appropriate message.
 ### Note:
 we are assuming that lower the user number higher the priority or we can say that particular user came first, we do this to resolve conflict between two or more users.
 
-## **Features**
-### **Publications Display**
-For each queried author, the program will display the following details:
-
-- Title of the publication.
-- Venue or Journal where the paper was published.
-- Year of publication.
-- DOI (if available).
-- Volume, Number, and Pages (if available).
-- List of Authors and their affiliations (if known).
-
 ## OOPD Concepts Used
 
 - **Encapsulation**: Data related to users, packets, and the access point is encapsulated in respective classes like `User`, `Packet`, `AccessPoint`, etc.
