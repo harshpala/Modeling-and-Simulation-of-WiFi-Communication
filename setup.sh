@@ -16,6 +16,7 @@ mkdir -p "$PROJECT_ROOT/include/core" "$PROJECT_ROOT/include/protocols"
 [ ! -f "$PROJECT_ROOT/src/core/Simulator.cpp" ] && touch "$PROJECT_ROOT/src/core/Simulator.cpp"
 [ ! -f "$PROJECT_ROOT/src/protocols/WiFi4Simulator.cpp" ] && touch "$PROJECT_ROOT/src/protocols/WiFi4Simulator.cpp"
 [ ! -f "$PROJECT_ROOT/src/protocols/WiFi5Simulator.cpp" ] && touch "$PROJECT_ROOT/src/protocols/WiFi5Simulator.cpp"
+[ ! -f "$PROJECT_ROOT/src/protocols/WiFi6Simulator.cpp" ] && touch "$PROJECT_ROOT/src/protocols/WiFi6Simulator.cpp"
 
 # Create empty header files in respective subfolders
 [ ! -f "$PROJECT_ROOT/include/core/config.h" ] && touch "$PROJECT_ROOT/include/core/config.h"
@@ -26,6 +27,7 @@ mkdir -p "$PROJECT_ROOT/include/core" "$PROJECT_ROOT/include/protocols"
 [ ! -f "$PROJECT_ROOT/include/core/Simulator.h" ] && touch "$PROJECT_ROOT/include/core/Simulator.h"
 [ ! -f "$PROJECT_ROOT/include/protocols/WiFi4Simulator.h" ] && touch "$PROJECT_ROOT/include/protocols/WiFi4Simulator.h"
 [ ! -f "$PROJECT_ROOT/include/protocols/WiFi5Simulator.h" ] && touch "$PROJECT_ROOT/include/protocols/WiFi5Simulator.h"
+[ ! -f "$PROJECT_ROOT/include/protocols/WiFi6Simulator.h" ] && touch "$PROJECT_ROOT/include/protocols/WiFi6Simulator.h"
 
 
 # Create logs directory if it does not exist
@@ -40,7 +42,7 @@ $PROJECT_ROOT/
 ├── include/
 │   │
 │   ├── core/
-│   │    ├── config.h                    # New config file for global constants
+│   │    ├── config.h               # New config file for global constants
 │   │    ├── AccessPoint.h          # New Access Point class header
 │   │    ├── FrequencyChannel.h     # Header for Frequency Channel class
 │   │    ├── Packet.h               # Header for Packet class
@@ -48,12 +50,13 @@ $PROJECT_ROOT/
 │   │    └── User.h                 # User class header
 │   └── protocols/
 │         ├── WiFi4Simulator.cpp    # WiFi 4 Simulator implementation
-│         └── WiFi5Simulator.cpp    # WiFi 5 Simulator implementation
-
+│         ├── WiFi5Simulator.cpp    # WiFi 5 Simulator implementation
+│         └── WiFi6Simulator.cpp    # WiFi 6 Simulator implementation
+│
 └── src/
     │
     ├── core/
-    │    ├── main.cpp                    # Main application entry
+    │    ├── main.cpp               # Main application entry
     │    ├── AccessPoint.cpp        # Implementation for Access Point class
     │    ├── FrequencyChannel.cpp   # Implementation for Frequency Channel class
     │    ├── Packet.cpp             # Implementation for Packet class
@@ -62,6 +65,7 @@ $PROJECT_ROOT/
     │   
     └── protocols/
          ├── WiFi4Simulator.cpp     # WiFi 4 Simulator implementation
-         └── WiFi5Simulator.cpp     # WiFi 5 Simulator implementation
+         ├── WiFi5Simulator.cpp     # WiFi 5 Simulator implementation
+         └── WiFi6Simulator.cpp     # WiFi 6 Simulator implementation
 
 "
