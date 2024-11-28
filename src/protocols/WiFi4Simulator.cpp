@@ -157,7 +157,7 @@ void WiFi4Simulator::runSimulation(int numIterations) {
     fullLog << "Average Latency: " << avgAvgLatency << " ms\n";
     fullLog << "Maximum Latency: " << avgMaxLatency << " ms\n";
 
-    saveResultsToFile("./logs/simulationLogs.txt", fullLog.str());
+    saveResultsToFile("./logs/wifi_4_simulation_log.txt", fullLog.str());
 
     std::cout << "\nFinal Averaged Results:\n";
     std::cout << "Average Throughput: " << avgThroughput << " Mbps\n";
