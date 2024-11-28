@@ -151,7 +151,7 @@ PROJECT_ROOT
 ```
 
 ## **Flowchart for CSMA/CA (WiFi 4)**
-The CSMA/CA process involves the following steps:
+#### The CSMA/CA process involves the following steps:
 
 - `Idle Channel`: If the channel is idle, the user transmits immediately.
 - `Busy Channel`: If the channel is busy, the user waits for a random backoff time.
@@ -163,7 +163,7 @@ Below is the flowchart for CSMA/CA and MU-MIMO :
 
 ![CSMA/CA Flowchart](./assets/CSMA_CA_flowchart.gif)
 
-Here's a flowchart for the WiFi 5 MU-MIMO (Multi-User MIMO) process,
+#### Here's a flowchart for the WiFi 5 MU-MIMO (Multi-User MIMO) process,
 - `AP Broadcasts Packet`: The Access Point (AP) sends a broadcast packet.
 - `Users Send CSI (Channel State Information)`: Each user sequentially sends their CSI packet to the AP (200 bytes per user).
 - `Start Parallel Transmission`: Once all users have sent their CSI, they are allowed to send data in parallel for a total of 15 ms.
