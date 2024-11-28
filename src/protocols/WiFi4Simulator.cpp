@@ -23,7 +23,7 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
     std::vector<User> users;
 
     // Step 1: Create users and assign initial backoff times
-    for (int i = 0; i < numUsers; ++i) {
+    for (int i = 1; i <= numUsers; ++i) {
         User user(i);
         if (i > 0) {
             user.assignBackoff(); // Skip backoff for User 0
@@ -40,6 +40,9 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
         });
 
         User &currentUser = users[0];
+
+        // Create a packet for the current user (1 KB by default)
+        Packet packet(Config::PACKET_SIZE_KB);  // Create a packet object with size from Config
 
         // Update start time based on the channel's current state
         currentUser.setStartTime(std::max(currentTime, currentUser.getBackoffTime()));
@@ -68,7 +71,6 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
 
         // Re-sort users after conflict resolution if needed
         if (conflictDetected) {
-            // We have updated the backoff times, so we need to re-sort the list
             std::sort(users.begin(), users.end(), [](const User &a, const User &b) {
                 return a.getBackoffTime() < b.getBackoffTime();
             });
@@ -82,11 +84,12 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
         latencies.push_back(currentUser.getEndTime());
         timestamps.push_back(currentUser.getEndTime());
 
-        // Log the transmission
+        // Log the transmission, including the packet size
         logStream << "User " << currentUser.getId()
                   << " waiting (backoff: " << currentUser.getBackoffTime()
                   << " ms, current time: " << std::fixed << std::setprecision(4) << currentUser.getStartTime() << " ms).\n";
-        logStream << "User " << currentUser.getId() << " transmitted at time "
+        logStream << "User " << currentUser.getId() << " transmitted a "
+                  << packet.getSize() << " KB packet at time "
                   << std::fixed << std::setprecision(4) << currentUser.getEndTime() << " ms.\n";
 
         // Remove the user from the list after transmission
@@ -95,6 +98,7 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
 
     return logStream.str();
 }
+
 
 
 void WiFi4Simulator::runSimulation(int numIterations) {
