@@ -57,13 +57,14 @@ void WiFi5Simulator::runSimulation(int totalPackets, int numPacketsPerUser) {
         // Step 3: Start parallel transmission for the time slot
         double slotStart = currentTime;
         logStream << "Starting parallel transmission for " << timeSlot << " ms...\n";
+        int currentUser = 0;
         for (int i = 0; i < numUsers; ++i) {
             while (packetsRemaining[i] > 0) {
                 double transmissionEndTime = currentTime + packetTransmissionTime;
 
                 // If the transmission exceeds the time slot, break
                 if (transmissionEndTime > slotStart + timeSlot) {
-                    logStream << "User " << i + 1 << " exceeded time slot, ending transmission at time "
+                    logStream << "User " << currentUser + 1 << " exceeded time slot, ending transmission at time "
                               << currentTime << " ms.\n";
                     break;
                 }
@@ -75,7 +76,8 @@ void WiFi5Simulator::runSimulation(int totalPackets, int numPacketsPerUser) {
                 latencies.push_back(currentTime);  // Record latency
                 timestamps.push_back(currentTime); // Record timestamp
 
-                logStream << "User " << i + 1 << " transmitted a packet at time " << currentTime << " ms.\n";
+                logStream << "User " <<currentUser + 1 << " transmitted a packet at time " << currentTime << " ms.\n";
+                currentUser = ((currentUser + 1) % numUsers);
             }
         }
     }
