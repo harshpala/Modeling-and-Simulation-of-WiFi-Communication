@@ -87,7 +87,7 @@ void WiFi5Simulator::runSimulation(int totalPackets, int numPacketsPerUser) {
     logStream << "Max Latency: " << calculateMaxLatency() << " ms\n";
     
     // Save the log to a file
-    saveResultsToFile("./logs/wiFi5_simulation_log.txt", logStream.str());
+    saveResultsToFile("./logs/wifi_5_simulation_log.txt", logStream.str());
 
     // Display simulation results
     std::cout << "Simulation Complete:\n";
