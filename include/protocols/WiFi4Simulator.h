@@ -10,8 +10,7 @@ private:
 
 public:
     WiFi4Simulator(int numUsers, int bandwidth);
-    void runSimulation() override;
-    void runSimulationMultipleTimes(int numIterations);
+    void runSimulation(int numIterations);
 };
 
 #endif

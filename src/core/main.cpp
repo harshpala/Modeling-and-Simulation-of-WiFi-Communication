@@ -26,7 +26,7 @@ int main() {
         // Pass Config::BANDWIDTH_MHZ to the simulator
         const int bandwidth = Config::BANDWIDTH_MHZ;
         WiFi4Simulator simulator(numUsers, bandwidth);
-        simulator.runSimulationMultipleTimes(numIterations);
+        simulator.runSimulation(numIterations);
     } catch (const std::exception &e) {
         std::cerr << "Error: " << e.what() << '\n';
         return 1;

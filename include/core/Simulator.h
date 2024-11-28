@@ -18,12 +18,15 @@ protected:
 
 public:
     Simulator(int numUsers, int bandwidth);
-    virtual void runSimulation() = 0;
-    void runSimulationMultipleTimes(int numIterations);
+    
+    void runSimulation(int numIterations);
+    
     virtual double calculateThroughput();
     double calculateAverageLatency();
     double calculateMaxLatency();
     void saveResultsToFile(const std::string &filename, const std::string &logData);
+    
+    // Virtual Destructor for proper cleanup
     virtual ~Simulator() = default;
 };
 

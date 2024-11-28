@@ -1,6 +1,9 @@
-#include "../../include/core/config.h"
+#include "../../include/core/Config.h"
 #include "../../include/protocols/WiFi4Simulator.h"
 #include "../../include/core/User.h"
+#include "../../include/core/AccessPoint.h"
+#include "../../include/core/Packet.h"
+#include "../../include/core/FrequencyChannel.h"
 #include <vector>
 #include <unordered_set>
 #include <algorithm>
@@ -11,16 +14,12 @@
 WiFi4Simulator::WiFi4Simulator(int numUsers, int bandwidth)
     : Simulator(numUsers, bandwidth) {}
 
-void WiFi4Simulator::runSimulation() {
-    throw std::runtime_error("Single run is not supported directly. Use runSimulationMultipleTimes.");
-}
-
 std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
     std::ostringstream logStream;
     logStream << "Run " << runNumber << ":\n";
     logStream << "------------------\n";
 
-    const double transmissionTime = Config::TRANSMISSION_TIME; // Use Config constant
+    const double transmissionTime = Config::TRANSMISSION_TIME;  // Use Config constant
     std::vector<User> users;
 
     // Step 1: Create users and assign initial backoff times
@@ -67,14 +66,18 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
             }
         }
 
-        // Re-sort users after conflict resolution
+        // Re-sort users after conflict resolution if needed
         if (conflictDetected) {
-            continue; // Skip processing to allow for re-sorting
+            // We have updated the backoff times, so we need to re-sort the list
+            std::sort(users.begin(), users.end(), [](const User &a, const User &b) {
+                return a.getBackoffTime() < b.getBackoffTime();
+            });
+            continue; // Skip processing for this iteration and re-check conflicts
         }
 
         // No conflicts, proceed with transmission
         currentUser.setEndTime(currentUser.getStartTime() + transmissionTime);
-        currentTime = currentUser.getEndTime();
+        currentTime = currentUser.getEndTime();  // Update the global currentTime
 
         latencies.push_back(currentUser.getEndTime());
         timestamps.push_back(currentUser.getEndTime());
@@ -86,14 +89,15 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
         logStream << "User " << currentUser.getId() << " transmitted at time "
                   << std::fixed << std::setprecision(4) << currentUser.getEndTime() << " ms.\n";
 
-        // Remove the user from the list
+        // Remove the user from the list after transmission
         users.erase(users.begin());
     }
 
     return logStream.str();
 }
 
-void WiFi4Simulator::runSimulationMultipleTimes(int numIterations) {
+
+void WiFi4Simulator::runSimulation(int numIterations) {
     srand(static_cast<unsigned int>(time(nullptr)));
 
     std::ostringstream fullLog;
