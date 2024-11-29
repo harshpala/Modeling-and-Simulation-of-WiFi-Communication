@@ -12,7 +12,7 @@ The goal of this project is to simulate WiFi 4 Communication (CSMA/CA), WiFi 5 C
 - **WiFi 5 Simulation (MU-MIMO)**: 
   WiFi 5 introduces multi-user MIMO (MU-MIMO), where parallel transmissions can occur after the AP broadcasts a packet and each user sends their channel state information (CSI). After sending the CSI, users can communicate in parallel for a time slot. The goal is to simulate multiple users, each transmitting a number of packets, and calculate throughput, average latency, and maximum latency for WiFi 5 communication.
   
-- **WiFi 6 Simulation (OFDMA)
+- **WiFi 6 Simulation (OFDMA)**
   
   WiFi 6 (802.11ax) introduces **Orthogonal Frequency Division Multiple Access (OFDMA)**, a technique that subdivides the 20 MHz channel into smaller sub-channels (2 MHz, 4 MHz, or 10 MHz). Each sub-channel can be used for parallel transmissions over a 5 ms time slot. WiFi 6 supports greater efficiency and higher throughput by allowing multiple devices to transmit data in parallel. The simulation calculates throughput, average latency, and maximum latency, using round-robin scheduling of users across sub-channels.
 
