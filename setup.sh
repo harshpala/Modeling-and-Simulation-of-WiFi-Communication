@@ -19,6 +19,7 @@ mkdir -p "$PROJECT_ROOT/include/core" "$PROJECT_ROOT/include/protocols"
 [ ! -f "$PROJECT_ROOT/src/protocols/WiFi6Simulator.cpp" ] && touch "$PROJECT_ROOT/src/protocols/WiFi6Simulator.cpp"
 
 # Create empty header files in respective subfolders
+[ ! -f "$PROJECT_ROOT/include/NetworkSimulation.h" ] && touch "$PROJECT_ROOT/include/NetworkSimulation.h"
 [ ! -f "$PROJECT_ROOT/include/core/config.h" ] && touch "$PROJECT_ROOT/include/core/config.h"
 [ ! -f "$PROJECT_ROOT/include/core/AccessPoint.h" ] && touch "$PROJECT_ROOT/include/core/AccessPoint.h"
 [ ! -f "$PROJECT_ROOT/include/core/FrequencyChannel.h" ] && touch "$PROJECT_ROOT/include/core/FrequencyChannel.h"
@@ -32,7 +33,6 @@ mkdir -p "$PROJECT_ROOT/include/core" "$PROJECT_ROOT/include/protocols"
 
 # Create logs directory if it does not exist
 mkdir -p "$PROJECT_ROOT/logs"
-[ ! -f "$PROJECT_ROOT/logs/simulationLogs.txt" ] && touch "$PROJECT_ROOT/logs/simulationLogs.txt"
 
 # Print the project structure
 echo "Project structure created. Directory and file setup:"
@@ -40,6 +40,7 @@ echo "
 $PROJECT_ROOT/
 │
 ├── include/
+│   ├── NetworkSimulation.h         # Library Header for Easy Inclusion
 │   │
 │   ├── core/
 │   │    ├── config.h               # New config file for global constants

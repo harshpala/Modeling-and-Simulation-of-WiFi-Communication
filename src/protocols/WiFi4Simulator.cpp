@@ -42,7 +42,7 @@ std::string WiFi4Simulator::generateRunLog(int runNumber, double &currentTime) {
         User &currentUser = users[0];
 
         // Create a packet for the current user (1 KB by default)
-        Packet packet(Config::PACKET_SIZE_KB);  // Create a packet object with size from Config
+        Packet<size_t> packet(Config::PACKET_SIZE_KB);  // Create a packet object with size from Config
 
         // Update start time based on the channel's current state
         currentUser.setStartTime(std::max(currentTime, currentUser.getBackoffTime()));

@@ -2,7 +2,7 @@
 # WiFi 4 Communication (CSMA/CA) and WiFi 5 Communication (MU-MIMO)
 
 ## Objective
-The goal of this project is to simulate WiFi communication protocols, specifically WiFi 4 (CSMA/CA) and WiFi 5 (MU-MIMO). The simulation models communication between multiple users and an Access Point (AP), including processes like packet transmission, backoff time handling, and interference resolution. The simulation calculates throughput, latency, and maximum latency for different scenarios and provides insights into how the protocols perform under various network conditions.
+The goal of this project is to simulate WiFi 4 Communication (CSMA/CA), WiFi 5 Communication (MU-MIMO), and WiFi 6 Communication (OFDMA). The simulation models communication between multiple users and an Access Point (AP), including processes like packet transmission, backoff time handling, and interference resolution. The simulation calculates throughput, latency, and maximum latency for different scenarios and provides insights into how the protocols perform under various network conditions.
 
 ## Approach
 
@@ -11,6 +11,20 @@ The goal of this project is to simulate WiFi communication protocols, specifical
 
 - **WiFi 5 Simulation (MU-MIMO)**: 
   WiFi 5 introduces multi-user MIMO (MU-MIMO), where parallel transmissions can occur after the AP broadcasts a packet and each user sends their channel state information (CSI). After sending the CSI, users can communicate in parallel for a time slot. The goal is to simulate multiple users, each transmitting a number of packets, and calculate throughput, average latency, and maximum latency for WiFi 5 communication.
+  
+- **WiFi 6 Simulation (OFDMA)
+  
+  WiFi 6 (802.11ax) introduces **Orthogonal Frequency Division Multiple Access (OFDMA)**, a technique that subdivides the 20 MHz channel into smaller sub-channels (2 MHz, 4 MHz, or 10 MHz). Each sub-channel can be used for parallel transmissions over a 5 ms time slot. WiFi 6 supports greater efficiency and higher throughput by allowing multiple devices to transmit data in parallel. The simulation calculates throughput, average latency, and maximum latency, using round-robin scheduling of users across sub-channels.
+
+## Explanation of Parameters and Assumptions:
+
+- Global Parameters: These define the basic setup for the simulation, including the bandwidth, modulation scheme, packet size, transmission time, and data rate. These values are used throughout all the protocols.
+
+- WiFi 4 Assumptions: These assumptions focus on the CSMA/CA mechanism, which handles the backoff time when multiple users compete for the channel.
+
+- WiFi 5 Assumptions: These assumptions deal with the MU-MIMO mechanism, including the transmission time for CSI packets and the time slot for parallel communication.
+
+- WiFi 6 Assumptions: These assumptions model OFDMA, where the available 20 MHz bandwidth is subdivided into smaller sub-channels that are used in parallel. Each user is assigned to a sub-channel in a round-robin fashion.
 
 
 ## Requirements
@@ -94,6 +108,9 @@ This will ask for number of users and number of packets to be sent.
 
 If there's a mistake, the program will display an appropriate message.
 
+- Now on choosing 3: 
+
+
 ### Note:
 we are assuming that lower the user number higher the priority or we can say that particular user came first, we do this to resolve conflict between two or more users.
 
@@ -126,7 +143,8 @@ PROJECT_ROOT
 │   │    ├── Simulator.h            # Simulator base class header
 │   │    └── User.h                 # User class header
 │   └── protocols/
-│         └── WiFi4Simulator.cpp    # WiFi 4 Simulator implementation
+│         │   WiFi4Simulator.cpp    # WiFi 4 Simulator implementation
+│         │   WiFi5Simulator.cpp    # WiFi 5 Simulator implementation
 │         └── WiFi5Simulator.cpp    # WiFi 5 Simulator implementation
 ├── src/
 │   │
@@ -140,6 +158,7 @@ PROJECT_ROOT
 │   │   
 │   └── protocols/
 │        ├── WiFi4Simulator.cpp     # WiFi 4 Simulator implementation
+│        ├── WiFi5Simulator.cpp       # WiFi 5 Simulator implementation
 │        └── WiFi5Simulator.cpp     # WiFi 5 Simulator implementation
 │
 ├── assets/                # contains images used in this Readme.md

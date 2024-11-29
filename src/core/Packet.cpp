@@ -1,11 +1,18 @@
 #include "../../include/core/Packet.h"
 
-Packet::Packet(size_t size) : size(size) {}
+// Template method definitions
+template <typename SizeType>
+Packet<SizeType>::Packet(SizeType size) : size(size) {}
 
-size_t Packet::getSize() const {
+template <typename SizeType>
+SizeType Packet<SizeType>::getSize() const {
     return size;
 }
 
-void Packet::setSize(size_t newSize) {
+template <typename SizeType>
+void Packet<SizeType>::setSize(SizeType newSize) {
     size = newSize;
 }
+
+// Explicit instantiation
+template class Packet<size_t>;

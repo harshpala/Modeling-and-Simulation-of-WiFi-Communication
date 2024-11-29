@@ -3,7 +3,8 @@
 #include <stdexcept>
 
 Simulator::Simulator(int numUsers, int bandwidth)
-    : numUsers(numUsers), bandwidth(bandwidth) {}
+    : numUsers(numUsers), bandwidth(bandwidth), accessPoint(bandwidth) {
+    }
 
 double Simulator::calculateThroughput() {
     if (timestamps.empty()) return 0.0;

@@ -20,7 +20,7 @@ double WiFi6Simulator::calculateThroughput()
     if (latencies.empty())
         return 0.0;
 
-    double totalData = latencies.size() * 8192.0;    // Total data in bits (1 KB = 8192 bits)
+    double totalData = latencies.size() * (Config::PACKET_SIZE_KB)*1024*8;    // Total data in bits (1 KB = 8192 bits)
     double totalTime = timestamps.back();            // Total simulation time in ms
     return (totalData / (totalTime / 1000.0)) / 1e6; // Throughput in Mbps
 }
@@ -42,9 +42,10 @@ void WiFi6Simulator::runSimulation()
     subChannelWidth = userInputSubChannelWidth;
 
     // Calculate channel-specific parameters
-    int numSubChannels = bandwidth / subChannelWidth;                            // Calculate sub-channels based on total bandwidth
-    double dataRatePerSubChannel = (Config::DATA_RATE_MBPS * subChannelWidth) / 20.0; // Mbps per sub-channel
-    double transmissionTime = (8192.0 / (dataRatePerSubChannel * 1e6)) * 1000.0; // ms for 1 KB
+    
+    int numSubChannels = accessPoint.getFrequency() / subChannelWidth;                            // Calculate sub-channels based on total bandwidth
+    double dataRatePerSubChannel = (Config::DATA_RATE_MBPS * subChannelWidth) / Config::BANDWIDTH_MHZ; // Mbps per sub-channel
+    double transmissionTime = (((Config::PACKET_SIZE_KB)*1024*8) / (dataRatePerSubChannel * 1e6)) * 1000.0; // ms for 1 KB
 
     if (dataRatePerSubChannel <= 0)
     {
@@ -52,7 +53,7 @@ void WiFi6Simulator::runSimulation()
         return;
     }
 
-    std::cout << "Total Bandwidth: " << bandwidth << " MHz\n";
+    std::cout << "Total Bandwidth: " << accessPoint.getFrequency() << " MHz\n";
     std::cout << "Sub-channel Width: " << subChannelWidth << " MHz\n";
     std::cout << "Number of Sub-channels: " << numSubChannels << "\n";
     std::cout << "Transmission Time per Packet: " << std::fixed << std::setprecision(4) << transmissionTime << " ms\n\n";
