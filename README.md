@@ -93,10 +93,15 @@ Run the program, For example:
 ```
 It will ask for :
 ```bash
-Select WiFi Simulation Type:
+===============================================
+        WiFi Simulation Program
+===============================================
 1. WiFi 4 (CSMA/CA)
 2. WiFi 5 (MU-MIMO)
-Enter your choice (1/2):
+3. WiFi 6 (OFDMA)
+4. Exit
+===============================================
+Enter your choice (1/2/3/4): 
 ```
 - Now on choosing 1: 
 
@@ -110,6 +115,11 @@ If there's a mistake, the program will display an appropriate message.
 
 - Now on choosing 3: 
 
+It will ask for number of users and then folloed by
+```
+--- WiFi 6 OFDMA Simulation ---
+Enter sub-channel width (2, 4, or 10 MHz): 
+```
 
 ### Note:
 we are assuming that lower the user number higher the priority or we can say that particular user came first, we do this to resolve conflict between two or more users.
@@ -195,3 +205,5 @@ Below is the flowchart for CSMA/CA and MU-MIMO :
 - **Carrier Sense Multiple Access (CSMA)**:
   - Source: [NetworkWorld](https://www.networkworld.com/article/965066/what-is-mu-mimo-and-why-is-it-essential-for-wi-fi-6-and-6e.html)
   - Source: [ThinkPalm](https://thinkpalm.com/blogs/what-is-mu-mimo-significance-of-mu-mimo-in-wi-fi-6-wi-fi-6e/)
+  - Source: [netspotspp](https://www.netspotapp.com/blog/wifi-standards/what-is-ofdma.html)
+  - Source [ruckusnetwork](https://www.ruckusnetworks.com/insights/ofdma/)
