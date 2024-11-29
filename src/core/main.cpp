@@ -1,11 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <limits> // For numeric_limits
-#include "../../include/core/Simulator.h"
-#include "../../include/protocols/WiFi4Simulator.h"
-#include "../../include/protocols/WiFi5Simulator.h"
-#include "../../include/protocols/WiFi6Simulator.h"
-#include "../../include/core/config.h"
+#include "../../include/NetworkSimulation.h"
 
 void showMenu() {
     std::cout << "\n===============================================\n";
