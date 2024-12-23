@@ -202,6 +202,18 @@ Below is the flowchart for CSMA/CA and MU-MIMO :
 
 ![WiFi 5 MU-MIMO Flowchart](./assets/WiFi5_MUMIMO_flowchart.png)
 
+## **Flowchart for OFDMA (WiFi 6)**
+#### Here's a flowchart for the WiFi 6 OFDMA process:
+
+- `Initial Channel`: A 20 MHz channel serves as the starting point for all transmissions.
+- `Channel Division`: The system subdivides the channel into smaller sub-channels (2 MHz, 4 MHz, or 10 MHz), enabling multiple simultaneous transmissions.
+- `Parallel Data Flow`: Within each 5 ms time slot, different devices can transmit data simultaneously across these sub-channels, maximizing channel efficiency.
+- `Round-robin Scheduling`: The system employs round-robin scheduling to fairly allocate sub-channels among users, ensuring equitable access.
+
+The diagram below visualizes how OFDMA enhances WiFi 6's efficiency by enabling true parallel data transmission across subdivided channels, a significant improvement over previous WiFi standards.
+
+![WiFi 6 OFDMA Flowchart](assets/WiFi6_OFDMA_flowchart.png)
+
 ## References Used
 
 - **Carrier Sense Multiple Access (CSMA)**:
