@@ -192,6 +192,7 @@ Below is the flowchart for CSMA/CA and MU-MIMO :
 
 ![CSMA/CA Flowchart](./assets/CSMA_CA_flowchart.gif)
 
+## **Flowchart for MU-MIMO (WiFi 5)**
 #### Here's a flowchart for the WiFi 5 MU-MIMO (Multi-User MIMO) process,
 - `AP Broadcasts Packet`: The Access Point (AP) sends a broadcast packet.
 - `Users Send CSI (Channel State Information)`: Each user sequentially sends their CSI packet to the AP (200 bytes per user).
