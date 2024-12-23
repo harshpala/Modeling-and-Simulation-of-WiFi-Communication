@@ -5,10 +5,12 @@ The goal of this project is to simulate WiFi 4 Communication (CSMA/CA), WiFi 5 C
 
 ## Approach
 
-- **WiFi 4 Simulation (CSMA/CA)**: 
+- **WiFi 4 Simulation (CSMA/CA)**
+
   In WiFi 4, communication happens via a single AP and a set of users. CSMA/CA is used to determine if the channel is idle or busy before transmitting a packet. If the channel is busy, the transmission is deferred by a random backoff time with collision detection and handling, which is recalculated each time the channel is accessed. The goal is to simulate multiple users and compute throughput and latency metrics.
 
-- **WiFi 5 Simulation (MU-MIMO)**: 
+- **WiFi 5 Simulation (MU-MIMO)** 
+
   WiFi 5 introduces multi-user MIMO (MU-MIMO), where parallel transmissions can occur after the AP broadcasts a packet and each user sends their channel state information (CSI). After sending the CSI, users can communicate in parallel for a time slot. The goal is to simulate multiple users, each transmitting a number of packets, and calculate throughput, average latency, and maximum latency for WiFi 5 communication.
   
 - **WiFi 6 Simulation (OFDMA)**
