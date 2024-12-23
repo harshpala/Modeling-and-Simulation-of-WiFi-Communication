@@ -2,20 +2,20 @@
 #define ACCESSPOINT_H
 
 #include "Config.h"
-
+#include "FrequencyChannel.h"
 class AccessPoint {
 private:
     int id;
-    double frequency;
+    FrequencyChannel frequencyChannel;
 
 public:
-    AccessPoint(int id, double frequency = Config::BANDWIDTH_MHZ);
+    AccessPoint(int id, int frequency = Config::BANDWIDTH_MHZ);
     
     int getId() const;
-    double getFrequency() const;
+    int getFrequency() const;
 
     // Setters
-    void setFrequency(double freq);
+    void setFrequency(int freq);
 };
 
 #endif // ACCESSPOINT_H

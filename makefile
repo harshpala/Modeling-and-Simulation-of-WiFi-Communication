@@ -2,6 +2,7 @@ CC=g++
 CFLAGS=-std=c++17 -Iinclude
 DEBUGFLAGS=-g -O0
 OPTFLAGS=-O3
+LIBDIRS=-Llib # Example library directory, adjust as needed
 
 # Source and object files
 CORE_SOURCES=$(wildcard src/core/*.cpp)
@@ -25,10 +26,10 @@ optimized: $(RELEASE_TARGET)
 
 # Debug and optimized targets
 $(DEBUG_TARGET): $(OBJECTS)
-	$(CC) $(DEBUGFLAGS) $(CFLAGS) $^ -o $@
+	$(CC) $(DEBUGFLAGS) $(CFLAGS) $(LIBDIRS) $^ -o $@
 
 $(RELEASE_TARGET): $(OBJECTS)
-	$(CC) $(OPTFLAGS) $(CFLAGS) $^ -o $@
+	$(CC) $(OPTFLAGS) $(CFLAGS) $(LIBDIRS) $^ -o $@
 
 # Compile source files into object files
 build/%.o: src/%.cpp
@@ -44,7 +45,7 @@ $(STATIC_LIB): $(OBJECTS)
 shared: $(SHARED_LIB)
 
 $(SHARED_LIB): $(OBJECTS)
-	$(CC) -shared -o $@ $(OBJECTS)
+	$(CC) $(LIBDIRS) -shared -o $@ $(OBJECTS)
 
 # Prepare the necessary directories (only once)
 prepare:

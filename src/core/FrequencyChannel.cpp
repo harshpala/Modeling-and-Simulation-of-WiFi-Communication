@@ -1,12 +1,12 @@
 #include "../../include/core/FrequencyChannel.h"
 
-FrequencyChannel::FrequencyChannel(double bandwidth)
+FrequencyChannel::FrequencyChannel(int bandwidth)
     : bandwidth(bandwidth) {}
 
-double FrequencyChannel::getBandwidth() const {
+int FrequencyChannel::getBandwidth() const {
     return bandwidth;
 }
 
-void FrequencyChannel::setBandwidth(double bandwidth) {
+void FrequencyChannel::setBandwidth(int bandwidth) {
     this->bandwidth = bandwidth;
 }
