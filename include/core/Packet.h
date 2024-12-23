@@ -2,16 +2,18 @@
 #define PACKET_H
 #include <cstddef>  // Include this header to use size_t
 
-
+template <typename SizeType = size_t>
 class Packet {
 private:
-    size_t size;  // In bytes
+    SizeType size;  // Size in bytes or other units
 
 public:
-    Packet(size_t size = 1024);  // Default to 1 KB
-
-    size_t getSize() const;
-    void setSize(size_t newSize);
+    explicit Packet(SizeType size = 1024);
+    SizeType getSize() const;
+    void setSize(SizeType newSize);
 };
+
+// Declare explicit instantiations
+extern template class Packet<size_t>;
 
 #endif // PACKET_H

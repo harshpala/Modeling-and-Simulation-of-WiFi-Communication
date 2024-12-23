@@ -1,16 +1,16 @@
 #include "../../include/core/AccessPoint.h"
 
-AccessPoint::AccessPoint(int id, double frequency)
-    : id(id), frequency(frequency) {}
+AccessPoint::AccessPoint(int id, int frequency)
+    : id(id), frequencyChannel(frequency) {}
 
 int AccessPoint::getId() const {
     return id;
 }
 
-double AccessPoint::getFrequency() const {
-    return frequency;
+int AccessPoint::getFrequency() const {
+    return frequencyChannel.getBandwidth();
 }
 
-void AccessPoint::setFrequency(double freq) {
-    frequency = freq;
+void AccessPoint::setFrequency(int freq) {
+    frequencyChannel.setBandwidth(freq);
 }

@@ -5,13 +5,13 @@
 
 class FrequencyChannel {
 private:
-    double bandwidth;  // Bandwidth in MHz
+    int bandwidth;  // Bandwidth in MHz
 
 public:
-    FrequencyChannel(double bandwidth = Config::BANDWIDTH_MHZ);
+    FrequencyChannel(int bandwidth = Config::BANDWIDTH_MHZ);
 
-    double getBandwidth() const;
-    void setBandwidth(double bandwidth);
+    int getBandwidth() const;
+    void setBandwidth(int bandwidth);
 };
 
 #endif // FREQUENCYCHANNEL_H
