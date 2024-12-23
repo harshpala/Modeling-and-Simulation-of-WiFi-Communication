@@ -50,9 +50,9 @@ $PROJECT_ROOT/
 │   │    ├── Simulator.h            # Simulator base class header
 │   │    └── User.h                 # User class header
 │   └── protocols/
-│         ├── WiFi4Simulator.cpp    # WiFi 4 Simulator implementation
-│         ├── WiFi5Simulator.cpp    # WiFi 5 Simulator implementation
-│         └── WiFi6Simulator.cpp    # WiFi 6 Simulator implementation
+│         ├── WiFi4Simulator.h    # WiFi 4 Simulator implementation
+│         ├── WiFi5Simulator.h    # WiFi 5 Simulator implementation
+│         └── WiFi6Simulator.h    # WiFi 6 Simulator implementation
 │
 └── src/
     │
